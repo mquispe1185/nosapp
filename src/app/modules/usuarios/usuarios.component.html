@@ -1,0 +1,360 @@
+<div>
+        <div class="container main-title mt-3">
+          <div class="titulo">
+            <h5>Gestión de Usuarios</h5>
+          </div>
+        </div>
+        <div>
+          <div class="container mt-3">
+            <div>
+              <button mat-raised-button placement="right" ngbTooltip="Nuevo" color="primary" (click)="openFormAgregarUsuario(crearform)">
+                    <mat-icon>account_box</mat-icon> Agregar
+              </button>
+            </div>
+            <!-- Input Agregado para permitir la Busqueda -->
+            <mat-form-field>
+              <input matInput (keyup)="filtrarUsuarios($event.target.value)" placeholder="Buscar Usuario...">
+            </mat-form-field>
+            <mat-table #tablausuarios [dataSource]="lstUsuarios" class="mat-elevation-z8">
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="mobile-label">Id:</span>{{element.id}}
+                </mat-cell>
+              </ng-container>
+              <!-- dni -->
+           <ng-container matColumnDef="dni">
+                <mat-header-cell *matHeaderCellDef>DNI</mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <span class="mobile-label">DNI:</span>{{element.dni}}
+                </mat-cell>
+              </ng-container> 
+              <!-- Nombre -->
+              <ng-container matColumnDef="nombre">
+                <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="mobile-label">Nombre:</span>{{element.nombre}}
+                </mat-cell>
+              </ng-container>
+          
+              <!-- Email -->
+              <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <span class="mobile-label">Email:</span> {{element.email}}
+                </mat-cell>
+              </ng-container>
+              <!-- Rol -->
+               <ng-container matColumnDef="rol">
+                <mat-header-cell *matHeaderCellDef>Rol</mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <span class="mobile-label">Rol:</span> {{element.rol.descripcion}}
+                </mat-cell>
+              </ng-container>
+              <!-- Acciones Column -->
+              <ng-container matColumnDef="acciones">
+                <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="mobile-label">Acciones:</span>
+                  <button placement="right" ngbTooltip="Editar" class="mr-2"
+                    mat-icon-button style="background-color: transparent" (click)="openFormEditarUsuario(editform,element)"><mat-icon>create</mat-icon></button>
+                  <button placement="right" ngbTooltip="Eliminar"
+                    mat-icon-button style="background-color: transparent" (click)="dialogEliminarUsuario(element)"><mat-icon>delete</mat-icon></button>
+                </mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="dspColUsuarios"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: dspColUsuarios;"></mat-row>
+            </mat-table>
+            <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+              <mat-progress-spinner class="progressSpinner" color="accent" mode="indeterminate">
+              </mat-progress-spinner>
+            </mat-card>
+            <mat-paginator class="mat-elevation-z8" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" ></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+  <ng-template #crearform let-modal>
+ 
+            <div class="container mt-3">
+              <div class="card card-block mat-elevation-z8">
+                <div class="card-body">
+                    <div class="container  main-title mt-2">
+                        <div class="titulo">
+                          <h5 class="modal-title" ngbAutofocus>Agregar Usuario</h5>
+                        </div>
+                      </div>
+                  <form name="form"
+                  (ngSubmit)="f.form.valid &&  crearUsuario()" 
+                   #f="ngForm" novalidate>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <mat-form-field>
+                          <input matInput id="dni" type="number" required [(ngModel)]="usuario.dni" name="dni" minlength="6"
+                            #dni="ngModel" placeholder="dni" />
+                          <mat-error *ngIf="dni.invalid && dni.errors.required">DNI es Obligatorio</mat-error>
+                          <mat-error *ngIf="dni.invalid && dni.errors.minlength">DNI debe tener al menos 6 numeros</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="form-group col-md-6">
+                          <mat-form-field>
+                              <input matInput type="text" placeholder="Nombre completo" required minlength="2"
+                                [(ngModel)]="usuario.nombre" name="nombre" #nombre="ngModel" />
+                              <mat-error *ngIf="nombre.invalid && nombre.errors.required">Nombre es obligatorio</mat-error>
+                              <mat-error *ngIf="nombre.invalid && nombre.errors.minlength">Nombre debe tener al menos 2 letras
+                              </mat-error>
+                            </mat-form-field>
+                      </div>
+                    </div><!-- dni, nombre -->
+          
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                            <mat-form-field>
+                              <input matInput type="text"
+                                placeholder="Email" email [(ngModel)]="usuario.email"
+                                name="email" #email="ngModel">
+                              <mat-error *ngIf="email.invalid && email.errors.email">Formato de Email incorrecto</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <mat-form-field>
+                                <input matInput type="number" placeholder="telefono" required minlength="6"
+                                  [(ngModel)]="usuario.telefono" name="telefono" #telefono="ngModel" />
+                                <mat-error *ngIf="telefono.invalid && telefono.errors.required">Tel. es obligatorio</mat-error>
+                                <mat-error *ngIf="nombre.invalid && nombre.errors.minlength">Tel. debe tener al menos 2 letras
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                    </div><!-- telefono, email-->
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field floatLabel="always" class="mat-form-field-no-underline">
+                              <input matInput placeholder="Sexo" style="display: none;" />
+                              <mat-radio-group aria-labelledby="sexo-paciente" [(ngModel)]="usuario.sexo" name="sexo"
+                                #sexo="ngModel" required>
+                                <mat-radio-button [value]="0" color="warn" [attr.checked]="editar === false && usuario.sexo===0"
+                                  style="margin-right: 10px;">Femenino</mat-radio-button>
+                                <mat-radio-button [value]="1" color="accent" [attr.checked]="usuario.sexo===1">Masculino
+                                </mat-radio-button>
+                              </mat-radio-group>
+                              <mat-error *ngIf="sexo.invalid && sexo?.errors.required">Debe seleccionar sexo</mat-error>
+                            </mat-form-field>
+                          </div>
+                            <div class="form-group col-md-6">
+                                <mat-form-field>
+                                    <mat-label for="rol">Rol</mat-label>
+                                    <mat-select id="rol" name="rol" [(ngModel)]="usuario.rol_id">
+                                      <mat-option *ngFor="let rol of lstRoles" [value]="rol.id">{{ rol.descripcion }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                
+                            </div>
+                    </div><!-- sexo, rol-->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <mat-form-field class="col">
+                                <mat-label for="prov">Provincia</mat-label>
+                                <mat-select id="prov" name="prov" [(ngModel)]="usuario.provincia_id" (selectionChange)="buscarDtos($event)">
+                                  <mat-option *ngFor="let pr of provincias" [value]="pr.id">{{ pr.nombre }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="departamentos.length > 0">
+                            <mat-form-field class="col">
+                                <mat-label for="dto">Departamento</mat-label>
+                                <mat-select id="dto" name="dto" [(ngModel)]="usuario.departamento_id" (selectionChange)="buscarLocs($event)">
+                                  <mat-option *ngFor="let dto of departamentos" [value]="dto.id">{{ dto.nombre }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="localidades.length > 0">
+                            <mat-form-field class="col">
+                                <mat-label for="loc">Localidad</mat-label>
+                                <mat-select id="loc" name="loc" [(ngModel)]="usuario.localidad_id">
+                                  <mat-option *ngFor="let loc of localidades" [value]="loc.id">{{ loc.nombre }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <mat-form-field>
+                            <input matInput type="password" id="pass" placeholder="password" minlength="6"
+                              [(ngModel)]="usuario.password" required minlength="6" name="pass" #pass="ngModel" />
+                            <mat-error *ngIf="pass.invalid && pass.errors.required">Contraseña obligatoria</mat-error>
+                            <mat-error *ngIf="pass.invalid && pass.errors.minlength">Contraseña debe tener al menos 6 letras
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <mat-form-field>
+                            <input matInput type="password" placeholder="password" required minlength="6"
+                              [(ngModel)]="usuario.password_confirmation" name="passc" #passc="ngModel" />
+                            <mat-error *ngIf="passc.invalid && passc.errors.required">Confirmacion de contraseña es obligatorio</mat-error>
+                            <mat-error *ngIf="passc.invalid && passc.errors.minlength">Contraseña debe tener al menos 6 letras
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div><!-- contraseña, confirmacion-->
+          
+                    <div class="text-right mt-4">
+                      <button mat-raised-button class="mr-3" type="button" (click)="closeFormUsuario()">
+                            <mat-icon>close</mat-icon>Cancelar
+                      </button>
+                      <button mat-raised-button type="submit" color="primary">
+                            <mat-icon>save</mat-icon>Guardar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+</ng-template>
+
+<!-- contraseña, confirmacion-->
+<ng-template #editform let-modal>
+ 
+    <div class="container mt-3">
+      <div class="card card-block mat-elevation-z8">
+        <div class="card-body">
+            <div class="container  main-title mt-2">
+                <div class="titulo">
+                  <h5 class="modal-title" ngbAutofocus>Editar Usuario</h5>
+                </div>
+              </div>
+          <form name="form"
+          (ngSubmit)="f.form.valid &&  editarUsuario()" 
+           #f="ngForm" novalidate>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <mat-form-field>
+                  <input matInput id="dni" type="number" required [(ngModel)]="usuarioSelected.dni" name="dni" minlength="6"
+                    #dni="ngModel" placeholder="dni" />
+                  <mat-error *ngIf="dni.invalid && dni.errors.required">DNI es Obligatorio</mat-error>
+                  <mat-error *ngIf="dni.invalid && dni.errors.minlength">DNI debe tener al menos 6 numeros</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-6">
+                  <mat-form-field>
+                      <input matInput type="text" placeholder="Nombre completo" required minlength="2"
+                        [(ngModel)]="usuarioSelected.nombre" name="nombre" #nombre="ngModel" />
+                      <mat-error *ngIf="nombre.invalid && nombre.errors.required">Nombre es obligatorio</mat-error>
+                      <mat-error *ngIf="nombre.invalid && nombre.errors.minlength">Nombre debe tener al menos 2 letras
+                      </mat-error>
+                    </mat-form-field>
+              </div>
+            </div><!-- dni, nombre -->
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                    <mat-form-field>
+                      <input matInput type="text"
+                        placeholder="Email" email [(ngModel)]="usuarioSelected.email"
+                        name="email" #email="ngModel">
+                      <mat-error *ngIf="email.invalid && email.errors.email">Formato de Email incorrecto</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <mat-form-field>
+                        <input matInput type="text" placeholder="telefono" required minlength="6"
+                          [(ngModel)]="usuarioSelected.telefono" name="telefono" #telefono="ngModel" />
+                        <mat-error *ngIf="telefono.invalid && telefono.errors.required">Tel. es obligatorio</mat-error>
+                        <mat-error *ngIf="nombre.invalid && nombre.errors.minlength">Tel. debe tener al menos 2 letras
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+            </div><!-- telefono, email-->
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <mat-form-field floatLabel="always" class="mat-form-field-no-underline">
+                      <input matInput placeholder="Sexo" style="display: none;" />
+                      <mat-radio-group aria-labelledby="sexo-paciente" [(ngModel)]="usuarioSelected.sexo" name="sexo"
+                        #sexo="ngModel" required>
+                        <mat-radio-button [value]="0" color="warn" [attr.checked]="usuarioSelected.sexo===0"
+                          style="margin-right: 10px;">Femenino</mat-radio-button>
+                        <mat-radio-button [value]="1" color="accent" [attr.checked]="usuarioSelected.sexo===1">Masculino
+                        </mat-radio-button>
+                      </mat-radio-group>
+                      <mat-error *ngIf="sexo.invalid && sexo?.errors.required">Debe seleccionar sexo</mat-error>
+                    </mat-form-field>
+                  </div>
+                    <div class="form-group col-md-6">
+                        <mat-form-field>
+                            <mat-label for="rol">Rol</mat-label>
+                            <mat-select id="rol" name="rol" [(ngModel)]="usuarioSelected.rol_id">
+                              <mat-option *ngFor="let rol of lstRoles" [value]="rol.id">{{ rol.descripcion }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        
+                    </div>
+            </div><!-- sexo, rol-->
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <mat-form-field class="col">
+                        <mat-label for="prove">Provincia</mat-label>
+                        <mat-select id="prove" name="prove" [(ngModel)]="usuarioSelected.provincia_id" >
+                          <mat-option *ngFor="let pr of provincias" [value]="pr.id">{{ pr.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="form-group col-md-4">
+                    <mat-form-field class="col">
+                        <mat-label for="dto">Departamento</mat-label>
+                        <mat-select id="dto" name="dto" [(ngModel)]="usuarioSelected.departamento_id" (selectionChange)="buscarLocs($event)">
+                          <mat-option *ngFor="let dto of departamentos" [value]="dto.id">{{ dto.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="form-group col-md-4">
+                    <mat-form-field class="col">
+                        <mat-label for="loc">Localidad</mat-label>
+                        <mat-select id="loc" name="loc" [(ngModel)]="usuarioSelected.localidad_id">
+                          <mat-option *ngFor="let loc of localidades" [value]="loc.id">{{ loc.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+            </div>
+<!--             <div class="form-row">
+                <div class="form-group col-md-6">
+                  <mat-form-field>
+                    <input matInput type="password" id="pass" placeholder="password" minlength="6"
+                      [(ngModel)]="usuario.password" required minlength="6" name="pass" #pass="ngModel" />
+                    <mat-error *ngIf="pass.invalid && pass.errors.required">Contraseña obligatoria</mat-error>
+                    <mat-error *ngIf="pass.invalid && pass.errors.minlength">Contraseña debe tener al menos 6 letras
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-6">
+                  <mat-form-field>
+                    <input matInput type="password" placeholder="password" required minlength="6"
+                      [(ngModel)]="usuario.password_confirmation" name="passc" #passc="ngModel" />
+                    <mat-error *ngIf="passc.invalid && passc.errors.required">Confirmacion de contraseña es obligatorio</mat-error>
+                    <mat-error *ngIf="passc.invalid && passc.errors.minlength">Contraseña debe tener al menos 6 letras
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <!-- contraseña, confirmacion-->
+  
+            <div class="text-right mt-4">
+              <button mat-raised-button class="mr-3" type="button" (click)="closeFormUsuario()">
+                    <mat-icon>close</mat-icon>Cancelar
+              </button>
+              <button mat-raised-button type="submit" color="primary">
+                    <mat-icon>save</mat-icon>Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</ng-template>

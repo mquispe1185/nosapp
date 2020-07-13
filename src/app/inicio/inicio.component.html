@@ -1,0 +1,48 @@
+<body  class="inventory-body">
+    <div class="row h-50 align-items-center">
+      <div class="container">
+        <div class="row justify-content-end">
+            
+            <div class="col-xs-6 col-md-4 mx-5">
+               <mat-card class="rounded login">
+                   <mat-card-content>
+                      <form #signInForm="ngForm" (ngSubmit)="signInForm.form.valid && onSubmit(signInForm)" novalidate>
+                        <h2>Ingreso</h2>
+                        
+                         <mat-error *ngIf="loginInvalid">
+                          usuario o contraseña incorrectos
+                        </mat-error>
+                        <div class="form-row">
+                        <mat-form-field class="col">
+                          <input matInput  type="number" placeholder="dni usuario" required #dni="ngModel"
+                          [(ngModel)]="signInData.login" name="dni">
+                          <mat-error  *ngIf="dni.invalid">
+                            ingrese solo numeros
+                          </mat-error>
+                        </mat-form-field>
+                        </div>
+                        <div class="form-row">
+                        <mat-form-field class="col">
+                          <mat-label>ingrese contraseña</mat-label>
+                          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" required [(ngModel)]="signInData.password"
+                          #password="ngModel" name="password">
+                          <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </button>
+                          <mat-error *ngIf="password.invalid">
+                              por favor ingrese contraseña
+                            </mat-error>
+                        </mat-form-field>
+                        </div>
+                        <div class="form-row">
+                        <button mat-raised-button color="primary" type="submit">Entrar</button>
+                        </div>
+                      </form>
+                    </mat-card-content>  
+                  </mat-card>   
+            </div>
+          </div>
+      </div>
+    </div>
+ 
+</body>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularTokenService } from 'angular-token';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'nos-app';
+  title = 'NOS-app';
+
+  constructor(public tokenService: AngularTokenService,
+                    ) {
+  }
 }

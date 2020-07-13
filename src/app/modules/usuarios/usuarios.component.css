@@ -1,0 +1,11 @@
+.mobile-label {
+    display: none;
+    }
+
+ @media(max-width: 600px) {
+    .mobile-label {
+      width: 55px;
+      display: inline-block;
+          font-weight: bold;
+    }
+}

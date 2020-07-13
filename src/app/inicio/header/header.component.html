@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+    <span class="fill-remaining-space">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item (click)="irAfiliados()">
+          <mat-icon>people</mat-icon>
+          <span>Afiliados</span>
+        </button>
+        <button mat-menu-item (click)="irGestionUsuarios()">
+          <mat-icon>people_outline</mat-icon>
+          <span>Usuarios</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>videocam</mat-icon>
+          <span>Let's talk</span>
+        </button>
+        <button mat-menu-item (click)="salir()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Salir</span>
+        </button>
+      </mat-menu>
+    </span>
+    <span class="fill-remaining-space">NOS Jujuy</span>
+  </mat-toolbar>
+
+  <div class="content" fxFlex>
+    
+     </div>
+     <app-footer></app-footer>

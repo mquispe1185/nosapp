@@ -1,0 +1,21 @@
+/* :host {
+    background-image: url('/assets/banderagrande.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+  } */
+
+  .inventory-body {
+    position: fixed;
+    min-width: 100%;
+    background-image: url("/assets/banderagrande.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    background-size: cover;
+    }
+
+.login{
+  background: rgba(255, 255, 255, 0.9)
+}
+  

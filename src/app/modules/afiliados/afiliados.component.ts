@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { AngularTokenService } from 'angular-token';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -35,6 +35,7 @@ export class AfiliadosComponent implements OnInit {
   dpto_id:number;
   origenes:Origen[]=[];
   usuarios:Usuario[]=[];
+  //@ViewChild('search') searchInput:ElementRef;
   constructor(public deviceService: DeviceDetectorService,
               private tokenService: AngularTokenService,
               private afiliadoService: AfiliadosService,
@@ -84,14 +85,14 @@ export class AfiliadosComponent implements OnInit {
                       this.searchFailed = true;
                       console.log("estado search failed",this.searchFailed);
                     }else{
-                      
+                      this.dni_selec = '';
                       this.afiliado_find = afi;
                     
                     }
       });
   }
 
-  findPaciente(){
+  findAfiliado(){
  
   this.searchFailed = false;
   this.afiliadoService.busquedaAfiliado(this.dni_selec).subscribe(

@@ -23,7 +23,16 @@ const routes: Routes = [
     component: HeaderComponent,
    loadChildren: './modules/usuarios/usuarios.module#UsuariosModule',
   },
-
+  {
+    path:'estadisticas',
+    component: HeaderComponent,
+   loadChildren: './modules/estadisticas/estadisticas.module#EstadisticasModule',
+  },
+  {
+    path:'contactos',
+    component: HeaderComponent,
+   loadChildren: './modules/contactos/contactos.module#ContactosModule',
+  },
 ];
 
 @NgModule({

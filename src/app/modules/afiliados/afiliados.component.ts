@@ -13,6 +13,7 @@ import { RolService } from 'src/app/servicios/rol.service';
 import { Origen } from 'src/app/modelos/origen';
 import { Usuario } from 'src/app/modelos/usuario';
 import { UsuariosService } from 'src/app/servicios/usuarios.service';
+import { Rol } from 'src/app/modelos/rol';
 
 @Component({
   selector: 'app-afiliados',
@@ -35,9 +36,12 @@ export class AfiliadosComponent implements OnInit {
   dpto_id:number;
   origenes:Origen[]=[];
   usuarios:Usuario[]=[];
+  junta = Rol.JUNTA;
+
+  fechanac: any;
   //@ViewChild('search') searchInput:ElementRef;
   constructor(public deviceService: DeviceDetectorService,
-              private tokenService: AngularTokenService,
+              public tokenService: AngularTokenService,
               private afiliadoService: AfiliadosService,
               private usuarioService:UsuariosService,
               private ubicacionService: UbicacionService,
@@ -47,7 +51,11 @@ export class AfiliadosComponent implements OnInit {
             ) { }
 
   ngOnInit() {
-    this.getProvincias();
+    this.tokenService.validateToken().subscribe(
+      res => {
+        this.getProvincias();
+            })
+    
   }
 
   getUsuarios(){
@@ -76,7 +84,6 @@ export class AfiliadosComponent implements OnInit {
 
    // buscardor de pacientes por DNI
    searchAfiliado(term){
-      console.log("ejecutando");
     this.searchFailed = false;
     this.afiliadoService.busquedaAfiliado(term).subscribe(
       afi => {     console.log('rta pac',afi);
@@ -110,7 +117,7 @@ export class AfiliadosComponent implements OnInit {
 
   openFormAgregarAfiliado(modal){
     this.afiliado = new Afiliado();
-   
+   this.fechanac='';
     this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -120,6 +127,7 @@ export class AfiliadosComponent implements OnInit {
 
   openFormEditarAfiliado(modal){
     this.afiliado = {...this.afiliado_find};
+    this.fechanac = this.afiliado.fechanac;
     this.buscarDtosEdit(this.afiliado.provincia_id);
     this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -162,6 +170,7 @@ export class AfiliadosComponent implements OnInit {
   }
 
   crearAfiliado(){
+    this.afiliado.fechanac = this.fechanac;
     if (this.afiliado.contactado === false){
       this.afiliado.contactado_by_id = null;
     }
@@ -171,6 +180,7 @@ export class AfiliadosComponent implements OnInit {
     if (this.afiliado.adherido === false){
       this.afiliado.adherido_by_id = null;
     }
+    this.afiliado.created_by_id = this.tokenService.currentUserData.id;
     this.afiliadoService.createAfiliado(this.afiliado).subscribe(
       afi =>{ this.toastr.success('Existosamente', "afiliado creado");
               this.modalService.dismissAll();
@@ -179,6 +189,8 @@ export class AfiliadosComponent implements OnInit {
   }
 
   editarAfiliado(){
+    this.afiliado.fechanac = this.fechanac;
+    this.afiliado.updated_by_id = this.tokenService.currentUserData.id;
     this.afiliadoService.updateAfiliado(this.afiliado).subscribe(
       afi =>{this.toastr.success('Existosamente', "afiliado actualizado");
                 this.modalService.dismissAll();

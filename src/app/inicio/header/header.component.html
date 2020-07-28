@@ -4,15 +4,19 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu" [overlapTrigger]="false">
+          <button mat-menu-item (click)="irContactos()">
+              <mat-icon>phone</mat-icon>
+              <span>Contactos</span>
+            </button>
         <button mat-menu-item (click)="irAfiliados()">
           <mat-icon>people</mat-icon>
           <span>Afiliados</span>
         </button>
-        <button mat-menu-item (click)="irGestionUsuarios()">
+        <button *ngIf="tokenService.currentUserData?.rol_id != junta" mat-menu-item (click)="irGestionUsuarios()">
           <mat-icon>people_outline</mat-icon>
           <span>Usuarios</span>
         </button>
-        <button mat-menu-item>
+        <button *ngIf="tokenService.currentUserData?.rol_id != junta" mat-menu-item (click)="irEstadisticas()">
           <mat-icon>show_chart</mat-icon>
           <span>Estadisticas</span>
         </button>

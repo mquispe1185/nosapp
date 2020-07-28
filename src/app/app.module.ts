@@ -60,9 +60,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogModule } from './inicio/confirmation-dialog/confirmation-dialog.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './inicio/confirmation-dialog/confirmation-dialog.component';
-
-
-
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -143,7 +141,9 @@ import { ConfirmationDialogComponent } from './inicio/confirmation-dialog/confir
     MatTooltipModule,
     MatTreeModule,
 
+    ChartsModule,
     AppRoutingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent],

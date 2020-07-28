@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularTokenService } from 'angular-token';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Rol } from 'src/app/modelos/rol';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  junta = Rol.JUNTA;
+  secre = Rol.SECRE;
+  
   constructor(public tokenService: AngularTokenService,
     public router: Router,
     private toastr: ToastrService,) { }
@@ -40,8 +44,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['afiliadores']);
   }
 
+  irContactos():void{ 
+    this.router.navigate(['contactos']);
+  }
+
   irEstadisticas():void{ 
-    this.router.navigate(['estadistica']);
+    this.router.navigate(['estadisticas']);
   }
 
 }

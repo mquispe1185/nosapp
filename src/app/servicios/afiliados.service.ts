@@ -26,6 +26,10 @@ export class AfiliadosService {
     return this.http.put(url, afiliado);
   }
 
+  estadisticaAfiliado():Observable<Afiliado[]> {
+    return this.http.get<Afiliado[]>(`${environment.API_URL}/stats_afiliados`);
+  }
+
   deleteAfiliado(afiliado: Afiliado): Observable<any>{
     const url = `${this.API_URL}/${afiliado.id}`;
     return this.http.delete(url);

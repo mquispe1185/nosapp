@@ -12,10 +12,11 @@ export class Afiliado {
     fullname:string;
     dni: string;
     sexo: number;
-    //fechanac: string;
+    fechanac: string;
     domicilio:string;
     telefono: string;
     celular:string;
+    profesion:string;
     email: string;
     provincia_id:number;
     departamento_id:number;
@@ -33,7 +34,7 @@ export class Afiliado {
     created_by_id:number;
     updated_by_id:number;
     origen_id:number;
-
+    has_dni:boolean;
     contactado_by:Usuario;
     afiliado_by:Usuario;
     adherido_by:Usuario;

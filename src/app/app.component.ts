@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularTokenService } from 'angular-token';
+import { Spinkit } from 'ng-http-loader';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { AngularTokenService } from 'angular-token';
 })
 export class AppComponent {
   title = 'NOS-app';
-
+  public spinkit = Spinkit;
   constructor(public tokenService: AngularTokenService,
                     ) {
   }

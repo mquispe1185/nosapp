@@ -129,7 +129,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <mat-form-field>
-                <input matInput type="text" placeholder="telefono"   minlength="1" [readonly]="tokenService.currentUserData.rol_id === junta"
+                <input matInput type="text" placeholder="telefono" minlength="1" [readonly]="tokenService.currentUserData.rol_id === junta"
                   [(ngModel)]="contacto.telefono" name="telefono" #telefono="ngModel" />
                 <mat-error *ngIf="telefono.invalid && telefono.errors.required">Tel. es obligatorio</mat-error>
                 <mat-error *ngIf="telefono.invalid && telefono.errors.minlength">Tel. debe tener al menos 2 caracteres

@@ -61,7 +61,7 @@ import { ConfirmationDialogModule } from './inicio/confirmation-dialog/confirmat
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './inicio/confirmation-dialog/confirmation-dialog.component';
 import { ChartsModule } from 'ng2-charts';
-
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,7 @@ import { ChartsModule } from 'ng2-charts';
     ConfirmationDialogModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    //NgHttpLoaderModule.forRoot(),
+    NgHttpLoaderModule,
     NgbModule.forRoot(),
     DeviceDetectorModule.forRoot(),
     AngularTokenModule.forRoot({

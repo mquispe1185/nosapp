@@ -90,7 +90,6 @@ export class AfiliadosComponent implements OnInit {
                     this.afiliado_find = null;
                     if(afi === null){
                       this.searchFailed = true;
-                      console.log("estado search failed",this.searchFailed);
                     }else{
                       this.dni_selec = '';
                       this.afiliado_find = afi;
@@ -183,6 +182,7 @@ export class AfiliadosComponent implements OnInit {
     this.afiliado.created_by_id = this.tokenService.currentUserData.id;
     this.afiliadoService.createAfiliado(this.afiliado).subscribe(
       afi =>{ this.toastr.success('Existosamente', "afiliado creado");
+              this.afiliado_find = afi;
               this.modalService.dismissAll();
               this.afiliado = afi;}
     )
@@ -193,6 +193,7 @@ export class AfiliadosComponent implements OnInit {
     this.afiliado.updated_by_id = this.tokenService.currentUserData.id;
     this.afiliadoService.updateAfiliado(this.afiliado).subscribe(
       afi =>{this.toastr.success('Existosamente', "afiliado actualizado");
+               
                 this.modalService.dismissAll();
                 this.afiliado_find = afi;}
     )

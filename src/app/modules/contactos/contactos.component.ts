@@ -12,6 +12,7 @@ import { Estadocontacto } from 'src/app/modelos/estadocontacto';
 import { Origen } from 'src/app/modelos/origen';
 import { RolService } from 'src/app/servicios/rol.service';
 import { Rol } from 'src/app/modelos/rol';
+import { Usuario } from 'src/app/modelos/usuario';
 
 @Component({
   selector: 'app-contactos',
@@ -25,9 +26,10 @@ export class ContactosComponent implements OnInit {
   contactoSelec:Contacto;
   contactos:Contacto[]=[];
   lstContactos:any;
-  dspColContactos: string[] = ['nombre','tel','email','estado','origen','obs', 'acciones'];
+  dspColContactos: string[] = ['nombre','enc','tel','email','estado','origen','obs', 'acciones'];
   estados:Estadocontacto[]=[];
   origenes:Origen[]=[];
+  usuarios:Usuario[]=[];
   junta = Rol.JUNTA;
   secre = Rol.SECRE;
   @ViewChild(MatPaginator, null) paginatorUsuarios: MatPaginator;
@@ -55,12 +57,21 @@ export class ContactosComponent implements OnInit {
         this.lstContactos = new MatTableDataSource(cts);
         this.lstContactos.paginator = this.paginatorUsuarios;
         this.getOrigenes();
+        this.getUsuarios();
         this.contactoService.getEstadosContacto().subscribe(
           est => {
                   this.estados = est;}
         )
       }
     )
+  }
+
+  getUsuarios(){
+    this.usuarioService.getUsuarios().subscribe(
+      usrs => {
+        this.usuarios = usrs;
+      }
+    );
   }
 
   getOrigenes(){
@@ -89,8 +100,9 @@ export class ContactosComponent implements OnInit {
     )
   }
   openFormEditarContacto(modal,dataContacto){
-
+    console.log('tel',dataContacto.telefono);
     this.contacto = new Contacto(dataContacto);
+   
     this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

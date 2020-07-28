@@ -5,17 +5,22 @@
       </div>
     </div>
     <div class="container mt-3">
-      <div>
-        <button mat-raised-button placement="right" ngbTooltip="Nuevo" color="primary" (click)="openFormAgregarContacto(crearform)">
-            <mat-icon>plus</mat-icon> Agregar
-        </button>
-      </div>
+  
       <!-- Input Agregado para permitir la Busqueda -->
-      <mat-form-field>
-        <input matInput (keyup)="filtrarContactos($event.target.value)" placeholder="Buscar contacto...">
-      </mat-form-field>
-      <mat-table #tablausuarios [dataSource]="lstContactos" class="mat-elevation-z8">
-    
+      <div class="row justify-content-between">
+          <div class="col-3">
+            <mat-form-field>
+              <input matInput (keyup)="filtrarContactos($event.target.value)" placeholder="Buscar contacto...">
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+              <button mat-raised-button placement="right" ngbTooltip="Nuevo" color="primary" (click)="openFormAgregarContacto(crearform)">
+                  <mat-icon>note_add</mat-icon> Agregar
+              </button>
+          </div>
+      </div>
+    </div>
+  <mat-table #tablausuarios [dataSource]="lstContactos" class="mat-elevation-z8 mx-5">
         <ng-container matColumnDef="nombre">
           <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -23,6 +28,12 @@
           </mat-cell>
         </ng-container>
         <!-- nombre -->
+        <ng-container matColumnDef="enc">
+            <mat-header-cell *matHeaderCellDef>Encargado</mat-header-cell>
+            <mat-cell *matCellDef="let element" >
+              <span class="mobile-label">Enc:</span> {{element.usuario?.nombre}}
+            </mat-cell>
+          </ng-container> <!-- encargado -->
    <!-- telefono -->
         <ng-container matColumnDef="tel">
           <mat-header-cell *matHeaderCellDef>Tel</mat-header-cell>
@@ -76,7 +87,7 @@
       </mat-table>
   
       <mat-paginator class="mat-elevation-z8" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" ></mat-paginator>
-    </div>
+   
 </div>
 
 <!-- formulario de alta-->
@@ -95,7 +106,7 @@
          #f="ngForm" novalidate>
 
          <div class="form-row">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-6">
             <mat-form-field>
               <input matInput id="nombre" type="text" required [(ngModel)]="contacto.nombre" name="nombre" minlength="2"
                 #nombre="ngModel" placeholder="nombre completo" [disabled]="tokenService.currentUserData.rol_id === junta" />
@@ -103,14 +114,22 @@
               <mat-error *ngIf="nombre.invalid && nombre.errors.minlength">nombre debe tener al menos 2 letras</mat-error>
             </mat-form-field>
           </div>
-       
+          <div class="form-group col-md-6">
+              <mat-form-field>
+                  <mat-label for="usu">Encargado</mat-label>
+                  <mat-select id="usu" name="usu" [(ngModel)]="contacto.usuario_id">
+                    <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
         </div><!-- apellido, estado -->
 
 
           <div class="form-row">
             <div class="form-group col-md-6">
               <mat-form-field>
-                <input matInput type="number" placeholder="telefono"   minlength="1" [readonly]="tokenService.currentUserData.rol_id === junta"
+                <input matInput type="text" placeholder="telefono"   minlength="1" [readonly]="tokenService.currentUserData.rol_id === junta"
                   [(ngModel)]="contacto.telefono" name="telefono" #telefono="ngModel" />
                 <mat-error *ngIf="telefono.invalid && telefono.errors.required">Tel. es obligatorio</mat-error>
                 <mat-error *ngIf="telefono.invalid && telefono.errors.minlength">Tel. debe tener al menos 2 caracteres

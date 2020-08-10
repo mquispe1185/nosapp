@@ -72,6 +72,7 @@ export class AfiliadosComponent implements OnInit {
                 this.provincias = provs;
                 this.getUsuarios();
                 this.getOrigenes();
+                this.buscarDtos(Provincia.JUJUY);//agregado para provincia especifica Jujuy
       }
     )
   }
@@ -116,6 +117,7 @@ export class AfiliadosComponent implements OnInit {
 
   openFormAgregarAfiliado(modal){
     this.afiliado = new Afiliado();
+    this.afiliado.provincia_id = Provincia.JUJUY;
    this.fechanac='';
     this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -136,7 +138,7 @@ export class AfiliadosComponent implements OnInit {
   }
 
   buscarDtos(event){
-    this.provincia_id = event.value;
+    this.provincia_id = event;
     this.ubicacionService.getDptos(this.provincia_id).subscribe(
       dtos => { this.departamentos = dtos; console.log('deptos',dtos);}
     )

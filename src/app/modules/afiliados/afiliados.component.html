@@ -270,7 +270,7 @@
                             <input matInput style="display: none;" />
                             <mat-radio-group [(ngModel)]="afiliado.sexo" name="sexo"
                             #sexo="ngModel" required>
-                                <mat-radio-button [value]="0" [attr.checked]="editar === false && afiliado.sexo===0"
+                                <mat-radio-button [value]="0" [attr.checked]="afiliado.sexo===0"
                                 style="margin-right: 10px;">Femenino</mat-radio-button>
                                 <mat-radio-button [value]="1">Masculino</mat-radio-button>
                                 
@@ -364,7 +364,7 @@
                         </div>
                     <div *ngIf="afiliado.adherido" class="form-group col-md-4">
                             <mat-form-field class="col">
-                                <mat-label for="usadh">Afiliado por</mat-label>
+                                <mat-label for="usadh">Adherido por</mat-label>
                                 <mat-select id="usadh" name="usadh" [(ngModel)]="afiliado.adherido_by_id">
                                   <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
                                   </mat-option>
@@ -513,7 +513,7 @@
                             <input matInput style="display: none;" />
                             <mat-radio-group [(ngModel)]="afiliado.sexo" name="sexo"
                             #sexo="ngModel" required>
-                                <mat-radio-button [value]="0" [attr.checked]="editar === false && afiliado.sexo===0"
+                                <mat-radio-button [value]="0" [attr.checked]="afiliado.sexo===0"
                                 style="margin-right: 10px;">Femenino</mat-radio-button>
                                 <mat-radio-button [value]="1">Masculino</mat-radio-button>
                                 
@@ -537,7 +537,7 @@
                     <div class="form-group col-md-4">
                         <mat-form-field class="col">
                             <mat-label for="prov">Provincia</mat-label>
-                            <mat-select id="prov" name="prov" [(ngModel)]="afiliado.provincia_id" (selectionChange)="buscarDtos($event)">
+                            <mat-select id="prov" name="prov" [(ngModel)]="afiliado.provincia_id" (selectionChange)="buscarDtos($event.value)">
                               <mat-option *ngFor="let pr of provincias" [value]="pr.id">{{ pr.nombre }}
                               </mat-option>
                             </mat-select>

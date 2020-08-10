@@ -9,7 +9,7 @@
                       <form #signInForm="ngForm" (ngSubmit)="signInForm.form.valid && onSubmit(signInForm)" novalidate>
                         <h2>Ingreso</h2>
                         
-                         <mat-error *ngIf="loginInvalid">
+                         <mat-error>
                           usuario o contraseña incorrectos
                         </mat-error>
                         <div class="form-row">

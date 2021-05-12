@@ -30,6 +30,7 @@
     "chart.js": "^2.8.0",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
+    "ng-http-loader": "^3.1.2",
     "ng2-charts": "^2.2.0",
     "ngx-device-detector": "^1.4.5",
     "ngx-toastr": "^10.1.0",

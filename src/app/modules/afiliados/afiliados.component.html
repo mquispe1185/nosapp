@@ -166,7 +166,7 @@
         </mat-card>
 </div>
 
-
+<!-- FORM CREAR-->
 <ng-template #crearform let-modal>
  
         <div class="container mt-3">
@@ -222,13 +222,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <mat-form-field>
-                          <input matInput type="date" required placeholder="Fecha de Nacimiento" [(ngModel)]="fechanac"
-                            #fecha="ngModel" min="1900-01-01" max="2017-04-20" fechaValidator id="fecha" name="fecha" required
+                          <input matInput type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="fechanac"
+                            #fecha="ngModel" min="1900-01-01" max="2017-04-20" fechaValidator id="fecha" name="fecha"
                             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
                           <mat-error *ngIf="fecha.invalid && fecha?.errors.fechanac">Fecha mayor a 1900 y menor a HOY
                           </mat-error>
                           <mat-error *ngIf="fecha.invalid && fecha?.errors.pattern">Fecha invalida</mat-error>
-                          <mat-error *ngIf="fecha.invalid && fecha?.errors.required">Fecha nacimiento Obligatoria</mat-error>
+                         
                         </mat-form-field>
                       </div>
                       <div class="form-group col-md-6">
@@ -291,7 +291,7 @@
                       </div>
                       <div class="form-group col-md-6">
                           <mat-form-field>
-                              <input matInput type="text" placeholder="profesión" required minlength="2" maxlength="30"
+                              <input matInput type="text" placeholder="profesión" minlength="2" maxlength="30"
                                 [(ngModel)]="afiliado.profesion" name="prof" #prof="ngModel" />
                               <mat-error *ngIf="prof.invalid && prof.errors.required">profesion es obligatorio</mat-error>
                               <mat-error *ngIf="prof.invalid && prof.errors.minlength">profesion debe tener al menos 2 letras
@@ -334,13 +334,13 @@
                         <div class="form-group col-md-4">
                         <mat-checkbox class="example-margin" name="cont" [(ngModel)]="afiliado.contactado">Contactado</mat-checkbox>
                     </div>
-                    <div class="form-group col-md-4">
-                        <mat-checkbox class="example-margin" name="afi" [(ngModel)]="afiliado.afiliado">Afiliado</mat-checkbox>
-                    </div>
+                    
                     <div class="form-group col-md-4">
                         <mat-checkbox class="example-margin" name="adh" [(ngModel)]="afiliado.adherido">Adherido</mat-checkbox>
                     </div>
-                       
+                    <div class="form-group col-md-4">
+                      <mat-checkbox class="example-margin" name="afi" [(ngModel)]="afiliado.afiliado">Afiliado</mat-checkbox>
+                  </div>
                   </div><!-- contactado, afiliado, adherido-->
 
                   <div class="form-row">
@@ -353,15 +353,7 @@
                                 </mat-select>
                               </mat-form-field>
                         </div>
-                        <div *ngIf="afiliado.afiliado" class="form-group col-md-4">
-                                <mat-form-field class="col">
-                                    <mat-label for="usafi">Afiliado por</mat-label>
-                                    <mat-select id="usafi" name="usafi" [(ngModel)]="afiliado.afiliado_by_id">
-                                      <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                        </div>
+                
                     <div *ngIf="afiliado.adherido" class="form-group col-md-4">
                             <mat-form-field class="col">
                                 <mat-label for="usadh">Adherido por</mat-label>
@@ -371,6 +363,15 @@
                                 </mat-select>
                               </mat-form-field>
                     </div>
+                    <div *ngIf="afiliado.afiliado" class="form-group col-md-4">
+                      <mat-form-field class="col">
+                          <mat-label for="usafi">Afiliado por</mat-label>
+                          <mat-select id="usafi" name="usafi" [(ngModel)]="afiliado.afiliado_by_id">
+                            <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+              </div>
                 </div>
                   <div class="form-row">
                         <div class="form-group col-md-6">
@@ -409,7 +410,7 @@
         </div>
 </ng-template>
 
-
+<!-- FORM EDITAR-->
 <ng-template #editarform let-modal>
  
         <div class="container mt-3">
@@ -464,13 +465,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <mat-form-field>
-                          <input matInput type="date" required placeholder="Fecha de Nacimiento" [(ngModel)]="fechanac"
-                            #fecha="ngModel" min="1900-01-01" max="2017-04-20" fechaValidator id="fecha" name="fecha" required
+                          <input matInput type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="fechanac"
+                            #fecha="ngModel" min="1900-01-01" max="2017-04-20" fechaValidator id="fecha" name="fecha"
                             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
                           <mat-error *ngIf="fecha.invalid && fecha?.errors.fechanac">Fecha mayor a 1900 y menor a HOY
                           </mat-error>
                           <mat-error *ngIf="fecha.invalid && fecha?.errors.pattern">Fecha invalida</mat-error>
-                          <mat-error *ngIf="fecha.invalid && fecha?.errors.required">Fecha nacimiento Obligatoria</mat-error>
+                         
                         </mat-form-field>
                       </div>
                       <div class="form-group col-md-6">
@@ -523,9 +524,9 @@
                       </div>
                       <div class="form-group col-md-6">
                           <mat-form-field>
-                              <input matInput type="text" placeholder="profesión" required minlength="2" maxlength="30"
+                              <input matInput type="text" placeholder="profesión" minlength="2" maxlength="30"
                                 [(ngModel)]="afiliado.profesion" name="prof" #prof="ngModel" />
-                              <mat-error *ngIf="prof.invalid && prof.errors.required">profesion es obligatorio</mat-error>
+                            
                               <mat-error *ngIf="prof.invalid && prof.errors.minlength">profesion debe tener al menos 2 letras
                               </mat-error>
                             </mat-form-field>
@@ -566,13 +567,13 @@
                         <div class="form-group col-md-4">
                         <mat-checkbox class="example-margin" name="cont" [(ngModel)]="afiliado.contactado">Contactado</mat-checkbox>
                     </div>
-                    <div class="form-group col-md-4">
-                        <mat-checkbox class="example-margin" name="afi" [(ngModel)]="afiliado.afiliado">Afiliado</mat-checkbox>
-                    </div>
+                  
                     <div class="form-group col-md-4">
                         <mat-checkbox class="example-margin" name="adh" [(ngModel)]="afiliado.adherido">Adherido</mat-checkbox>
                     </div>
-                       
+                    <div class="form-group col-md-4">
+                      <mat-checkbox class="example-margin" name="afi" [(ngModel)]="afiliado.afiliado">Afiliado</mat-checkbox>
+                  </div>
                   </div><!-- contactado, afiliado, adherido-->
 
                   <div class="form-row">
@@ -585,15 +586,7 @@
                                 </mat-select>
                               </mat-form-field>
                         </div>
-                        <div *ngIf="afiliado.afiliado" class="form-group col-md-4">
-                                <mat-form-field class="col">
-                                    <mat-label for="usafi">Afiliado por</mat-label>
-                                    <mat-select id="usafi" name="usafi" [(ngModel)]="afiliado.afiliado_by_id">
-                                      <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                        </div>
+                       
                     <div *ngIf="afiliado.adherido" class="form-group col-md-4">
                             <mat-form-field class="col">
                                 <mat-label for="usadh">Afiliado por</mat-label>
@@ -603,6 +596,15 @@
                                 </mat-select>
                               </mat-form-field>
                     </div>
+                    <div *ngIf="afiliado.afiliado" class="form-group col-md-4">
+                      <mat-form-field class="col">
+                          <mat-label for="usafi">Afiliado por</mat-label>
+                          <mat-select id="usafi" name="usafi" [(ngModel)]="afiliado.afiliado_by_id">
+                            <mat-option *ngFor="let us of usuarios" [value]="us.id">{{ us.nombre }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                </div>
                 </div>
                   <div class="form-row">
                         <div class="form-group col-md-6">
